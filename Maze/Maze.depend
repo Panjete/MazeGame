@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1651248898 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\main.cpp
+1651491678 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\main.cpp
 	"Game.h"
 
 1641849092 c:\sdl2\include\sdl2\sdl.h
@@ -380,7 +380,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1651244937 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\game.h
+1651268062 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\game.h
 	"SDL.h"
 	<iostream>
 
@@ -390,11 +390,12 @@
 	"SDL2/begin_code.h"
 	"SDL2/close_code.h"
 
-1651252382 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\game.cpp
+1651491076 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\game.cpp
 	"Game.h"
 	"SDL_image.h"
 	"TextureCreator.h"
 	"Object.h"
+	"Map.h"
 
 1561870398 c:\sdl2_image\include\sdl2\sdl_image.h
 	"SDL.h"
@@ -406,16 +407,36 @@
 	"Game.h"
 	"SDL.h"
 
-1651223499 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\texturecreator.cpp
+1651435886 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\texturecreator.cpp
 	"TextureCreator.h"
 	"SDL_image.h"
 
-1651248076 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\object.h
+1651486466 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\object.h
+	"Game.h"
+	"SDL.h"
+	"Map.h"
+
+1651491749 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\object.cpp
+	"Object.h"
+	"TextureCreator.h"
+
+1651268410 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\objectcollision.h
 	"Game.h"
 	"SDL.h"
 
-1651252979 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\object.cpp
-	"Object.h"
-	"TextureCreator.h"
-	<iostream>
+1651267865 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\objectcollision.cpp
+	"ObjectCollision.h"
+
+1651477787 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\colors.cpp
+	"Colors.h"
+
+1651479286 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\colors.h
+
+1651487552 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\map.cpp
+	"Map.h"
+	"Game.h"
+	<fstream>
+
+1651485771 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\map.h
+	<string>
 

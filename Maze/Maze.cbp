@@ -12,7 +12,9 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c17" />
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +24,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -30,10 +33,11 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="C:/SDL2/include" />
+			<Add directory="C:/SDL2_image/include/SDL2" />
+			<Add directory="C:/SDL2/include/SDL2" />
 		</Compiler>
 		<Linker>
-			<Add option="-Wall -lmingw32 -lSDL2main -lSDL2" />
+			<Add option="-Wall -lmingw32 -lSDL2main -lSDL2  -lSDL2_image" />
 			<Add library="mingw32" />
 			<Add library="SDL2main" />
 			<Add library="SDL2.dll" />
@@ -42,11 +46,22 @@
 			<Add library="winmm" />
 			<Add library="dxguid" />
 			<Add directory="C:/SDL2/lib" />
+			<Add directory="C:/SDL2_image/lib" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="XCOPY $(#sdl2)\bin\*.dll $(TARGET_OUTPUT_DIR) /D /Y" />
 		</ExtraCommands>
+		<Unit filename="include/Colors.h" />
+		<Unit filename="include/Game.h" />
+		<Unit filename="include/Map.h" />
+		<Unit filename="include/Object.h" />
+		<Unit filename="include/TextureCreator.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Colors.cpp" />
+		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/Map.cpp" />
+		<Unit filename="src/Object.cpp" />
+		<Unit filename="src/TextureCreator.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

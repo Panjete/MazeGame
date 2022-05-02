@@ -2,10 +2,14 @@
 #include "SDL_image.h"
 #include "TextureCreator.h"
 #include "Object.h"
+#include "Map.h"
 
 Object* player1;
 SDL_Renderer* Game::renderer = nullptr;
+SDL_Texture* bgtex;
+Map mp("store/lvl.txt");
 SDL_Event Game::event;
+
 Game::Game()
 {}
 
@@ -32,7 +36,9 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 		isRunning = true;
 	}
-	player1 = new Object("store/animated_player.png", 0, 0);
+	player1 = new Object("store/animated_player.png", 100, 0);
+	bgtex = TextureCreator::LoadTexture("store/map.png");
+
 }
 
 void Game::handleEvents()
@@ -56,12 +62,16 @@ void Game::update()
 	cnt++;
 
     player1->update();
-	std::cout << cnt << std::endl;
+	//std::cout << cnt << std::endl;
 }
 
 void Game::render()
 {
 	SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, bgtex, NULL, NULL);
+    //if (SDL_RenderCopy(renderer, bgtex, NULL, NULL)< 0) {
+    //printf("failed: %s\n", SDL_GetError());
+    //}
 	player1->render();
 	SDL_RenderPresent(renderer);
 }
