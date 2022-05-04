@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1651491678 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\main.cpp
+1651607314 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\main.cpp
 	"Game.h"
 
 1641849092 c:\sdl2\include\sdl2\sdl.h
@@ -380,9 +380,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1651268062 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\game.h
+1651694698 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\game.h
 	"SDL.h"
 	<iostream>
+	"SDL_Mixer.h"
+	"SDL_ttf.h"
 
 1651082046 c:\sdl2_image-2.0.1\include\sdl_image.h
 	"SDL2/SDL.h"
@@ -390,12 +392,13 @@
 	"SDL2/begin_code.h"
 	"SDL2/close_code.h"
 
-1651491076 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\game.cpp
+1651699574 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\game.cpp
 	"Game.h"
 	"SDL_image.h"
 	"TextureCreator.h"
 	"Object.h"
 	"Map.h"
+	"Projectile.h"
 
 1561870398 c:\sdl2_image\include\sdl2\sdl_image.h
 	"SDL.h"
@@ -403,22 +406,25 @@
 	"begin_code.h"
 	"close_code.h"
 
-1651223480 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\texturecreator.h
+1651675827 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\texturecreator.h
 	"Game.h"
 	"SDL.h"
-
-1651435886 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\texturecreator.cpp
-	"TextureCreator.h"
 	"SDL_image.h"
+	"SDL_ttf.h"
+	<string>
 
-1651486466 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\object.h
+1651680459 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\texturecreator.cpp
+	"TextureCreator.h"
+
+1651681911 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\object.h
 	"Game.h"
 	"SDL.h"
 	"Map.h"
-
-1651491749 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\object.cpp
-	"Object.h"
 	"TextureCreator.h"
+	<string>
+
+1651694994 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\object.cpp
+	"Object.h"
 
 1651268410 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\objectcollision.h
 	"Game.h"
@@ -439,4 +445,28 @@
 
 1651485771 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\map.h
 	<string>
+
+1651700077 c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\include\projectile.h
+	"Game.h"
+	"SDL.h"
+	"Map.h"
+	"TextureCreator.h"
+	"Object.h"
+
+1651700287 source:c:\users\karti\onedrive - iit delhi\desktop\ide's\c++\maze\src\projectile.cpp
+	"Projectile.h"
+
+1540998018 c:\sdl2_mixer\include\sdl2\sdl_mixer.h
+	"SDL_stdinc.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1651390870 c:\sdl2_image\include\sdl2\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
 

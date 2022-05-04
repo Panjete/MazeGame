@@ -1,47 +1,107 @@
 #include "Object.h"
-#include "TextureCreator.h"
 
 extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;
 
+extern const int LEVEL_WIDTH;
+extern const int LEVEL_HEIGHT;
+
+SDL_Texture* objright;
+SDL_Texture* objstand;
+SDL_Texture* objcycle;
+SDL_Texture* EnergyBar;
+
+SDL_Color textColor = { 0, 255, 255 };
+TTF_Font* gfont;
+
+int levelratio = 4;
+bool largeview = false;
+extern SDL_Rect* cam_addr;
 extern Map mp;
 
-Object::Object(const char* file, int x_init, int y_init)
+SDL_RendererFlip flip = SDL_FLIP_NONE;
+
+Object::Object(float x_init, float y_init)
 {
 
-    objtex = TextureCreator::LoadTexture(file);
+    objright = TextureCreator::LoadTexture("store/boy-right.png");
+    objstand = TextureCreator::LoadTexture("store/boy-stand.png");
+    objcycle = TextureCreator::LoadTexture("store/boy-cycleright.png");
+    objtex = objstand;
+
+    gfont = TTF_OpenFont("store/Caviar_Dreams_Bold.ttf",28);
+    if(gfont == NULL){printf(TTF_GetError());}
+
     xpos = x_init;
     ypos = y_init;
-    scale = 0.1;
+    speed = 0.5;
+    outdim = 6;
+    Energy = 100;
+
 }
 
 Object::~Object()
 {}
 
+SDL_Rect cam_init(SDL_Rect camera, SDL_Rect destR, float xpos, float ypos){
+    camera = {0,0,SCREEN_WIDTH, SCREEN_HEIGHT};
+    camera.x = (int)levelratio*( xpos + destR.w / 2 ) - SCREEN_WIDTH / 2;
+    camera.y = (int)levelratio*( ypos +  destR.h / 2 ) - SCREEN_HEIGHT / 2;
+
+    if( camera.x < 0 )
+    {
+        camera.x = 0;
+    }
+    if( camera.y < 0 )
+    {
+        camera.y = 0;
+    }
+    if( camera.x > LEVEL_WIDTH - camera.w )
+    {
+        camera.x = LEVEL_WIDTH - camera.w;
+    }
+    if( camera.y > LEVEL_HEIGHT - camera.h )
+    {
+        camera.y = LEVEL_HEIGHT - camera.h;
+    }
+    return camera;
+
+}
 
 bool Object::CheckColl(){
     //std::cout << "val: " << mp.lvl[8][10] << " ";
-    //std::cout << xpos/10 << "," << ypos/10 << std::endl;
-
-    if (mp.lvl[ypos/8][xpos/8]!= 24){
+    //std::cout << xpos << "," << ypos << std::endl;
+    int a = (int)xpos;
+    int b = (int)ypos;
+    if (mp.lvl[b/8][a/8]!= 24 && mp.lvl[b/8][a/8]!= 22){
         return true;
     }
-    if (mp.lvl[(ypos+destR.h)/8][xpos/8]!= 24){
+    if (mp.lvl[(b+outdim)/8][a/8]!= 24 && mp.lvl[(b+outdim)/8][a/8]!= 22){
         return true;
     }
-    if (mp.lvl[ypos/8][(xpos+destR.w)/8] != 24){
+    if (mp.lvl[b/8][(a+outdim)/8] != 24 && mp.lvl[b/8][(a+outdim)/8] != 22){
         return true;
     }
-    if (mp.lvl[(ypos+destR.h)/8][(xpos+destR.w)/8] != 24){
+    if (mp.lvl[(b+outdim)/8][(a+outdim)/8] != 24 && mp.lvl[(b+outdim)/8][(a+outdim)/8] != 22){
         return true;
     }
     return false;
 }
 
-void Object::position(){
+void Object::handleEvents(){
+    int a = (int)xpos;
+    int b = (int)ypos;
     switch(Game::event.type){
         case SDL_KEYDOWN:
             switch(Game::event.key.keysym.sym){
+            case SDLK_SPACE:
+                if(mp.lvl[b/8][a/8] == 22 || mp.lvl[(b+outdim)/8][a/8] == 22 || mp.lvl[b/8][(a+outdim)/8] == 22 || mp.lvl[(b+outdim)/8][(a+outdim)/8] == 22){
+                    yulu = !yulu;
+                }
+                break;
+            case SDLK_l:
+                largeview = true;
+                break;
             case SDLK_w:
                 vy = -1;
                 break;
@@ -50,9 +110,11 @@ void Object::position(){
                 break;
             case SDLK_d:
                 vx = 1;
+                direction = 1;
                 break;
             case SDLK_a:
                 vx = -1;
+                direction = -1;
                 break;
             default:
                 break;
@@ -60,6 +122,9 @@ void Object::position(){
             break;
         case SDL_KEYUP:
             switch(Game::event.key.keysym.sym){
+            case SDLK_l:
+                largeview = false;
+                break;
             case SDLK_w:
                 vy = 0;
                 break;
@@ -79,47 +144,100 @@ void Object::position(){
             default:
                 break;
     }
+    if(yulu){
+        speed = 2;
+    }
+    else{
+        speed = 0.7;
+    }
     xpos += speed * vx;
-    ypos += speed * vy;
-
-    if (xpos + (int)scale*srcR.w> SCREEN_WIDTH){
-        xpos = SCREEN_WIDTH - (int)srcR.w*scale;
+    if (xpos + outdim> SCREEN_WIDTH){
+        xpos = SCREEN_WIDTH - outdim;
     }
     if(xpos < 0){
         xpos = 0;
     }
-    if(ypos + (int)scale*srcR.h> SCREEN_HEIGHT){
-        ypos = SCREEN_HEIGHT - (int)srcR.h*scale;
+    if(this->CheckColl()){
+        xpos -= speed * vx;
+    }
+
+    ypos += speed * vy;
+    if(ypos + outdim> SCREEN_HEIGHT){
+        ypos = SCREEN_HEIGHT - outdim;
     }
     if(ypos < 0){
         ypos = 0;
     }
     if(this->CheckColl()){
-        xpos -= speed * vx;
         ypos -= speed * vy;
     }
 }
 void Object::update(){
-    position();
+    handleEvents();
+    if(! (EnergyBar = TextureCreator::LoadTextureFromText("Energy: "+ std::to_string((int)Energy), textColor, gfont))){
+        std::cout << "fail" ;
+    }
+    Energy -= (abs(vx) + abs(vy))*0.005;
+    std::cout << Energy << std::endl;
+    destR.h = outdim;
+    destR.w = outdim;
+    if(largeview){
+        destR.x = (int)xpos;
+        destR.y = (int)ypos;
+        cam_addr = NULL;
+    }
+    else{
+        camera = cam_init(camera, destR, xpos, ypos);
+        destR.x = (int)(levelratio*xpos - camera.x);
+        destR.y = (int)(levelratio*ypos - camera.y);
+        destR.h = outdim*levelratio;
+        destR.w = outdim*levelratio;
+        cam_addr = &camera;
+    }
 
-    srcR.x = 0;
-    srcR.y = 0;
-    srcR.h = 32;
-    srcR.w = 32;
+    //Texture Update
+    if(yulu){
+        objtex = objcycle;
+        srcR.x = 0;
+        srcR.y = 0;
+        srcR.h = 92;
+        srcR.w = 106;
+        srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%8));
+        if(static_cast<int>((SDL_GetTicks()/ 100%16)) >= 8){
+            srcR.y = srcR.h;
+        }
+    }
+    else if(vx == 0 && vy  == 0){
+        objtex = objstand;
+        srcR.x = 0;
+        srcR.y = 0;
+        srcR.h = 426;
+        srcR.w = 316;
+    }
+    else if (direction){
+        objtex = objright;
+        srcR.x = 0;
+        srcR.y = 0;
+        srcR.h = 76;
+        srcR.w = 76;
+        srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%8));
+    }
 
+    flip = SDL_FLIP_NONE;
+    if (direction == -1){
+        flip = SDL_FLIP_HORIZONTAL;
+    }
 
-    destR.x = xpos;
-    destR.y = ypos;
-    destR.h = (int)srcR.h*scale;
-    destR.w = (int)srcR.w*scale;
-
-    srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%4));
-
+    //std::cout << camera.x << " " << camera.y << " " << camera.w << " " << camera.h << std::endl;
 
 }
 void Object::render(){
 
 
-    SDL_RenderCopy(Game::renderer, objtex, &srcR, &destR);
+    SDL_RenderCopyEx(Game::renderer, objtex, &srcR, &destR, 0, NULL, flip);
+    SDL_Rect r = {0,0,300,50};
+    if(SDL_RenderCopy(Game::renderer, EnergyBar, NULL, &r)<0){
+       printf(SDL_GetError());
+    }
 }
 
