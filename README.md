@@ -17,7 +17,15 @@ battle it out to emerge victorious
 6) Yulu gets you fast, but drains wealth.  
 7) Use the Zoom out command, for the bigger picture .
 
-
+Commands :-
+A - The Left Movement key
+D - The Right Movement key
+W- The Up Movement key
+S - The Down Movement key
+L - The Bigger picture command, displays the whole map
+M - For the non-music enthusiasts
+Space Bar in a Food joint zone - Energy replenishment, for the exchange of some money
+Space Bar in a Yulu Zone - Hop on/off a Yulu, with a gradually emptying wallet 
 
 **INSTALLATION Instructions**
 
