@@ -9,10 +9,15 @@ extern const int LEVEL_HEIGHT;
 SDL_Texture* objright;
 SDL_Texture* objstand;
 SDL_Texture* objcycle;
-SDL_Texture* EnergyBar;
 
-SDL_Color textColor = { 0, 255, 255 };
-TTF_Font* gfont;
+SDL_Texture* EnergyBar;
+SDL_Texture* MoneyBar;
+SDL_Texture* ScoreBar;
+
+Mix_Chunk *eat = nullptr;
+
+extern SDL_Color textColor;
+extern TTF_Font* gfont;
 
 int levelratio = 4;
 bool largeview = false;
@@ -29,14 +34,16 @@ Object::Object(float x_init, float y_init)
     objcycle = TextureCreator::LoadTexture("store/boy-cycleright.png");
     objtex = objstand;
 
-    gfont = TTF_OpenFont("store/Caviar_Dreams_Bold.ttf",28);
-    if(gfont == NULL){printf(TTF_GetError());}
-
     xpos = x_init;
     ypos = y_init;
     speed = 0.5;
     outdim = 6;
+
     Energy = 100;
+    Money = 50;
+    Score = 0;
+
+    eat = Mix_LoadWAV( "store/eating.wav");
 
 }
 
@@ -73,16 +80,16 @@ bool Object::CheckColl(){
     //std::cout << xpos << "," << ypos << std::endl;
     int a = (int)xpos;
     int b = (int)ypos;
-    if (mp.lvl[b/8][a/8]!= 24 && mp.lvl[b/8][a/8]!= 22){
+    if (mp.lvl[b/8][a/8] > 24){
         return true;
     }
-    if (mp.lvl[(b+outdim)/8][a/8]!= 24 && mp.lvl[(b+outdim)/8][a/8]!= 22){
+    if (mp.lvl[(b+outdim)/8][a/8] > 24){
         return true;
     }
-    if (mp.lvl[b/8][(a+outdim)/8] != 24 && mp.lvl[b/8][(a+outdim)/8] != 22){
+    if (mp.lvl[b/8][(a+outdim)/8] > 24){
         return true;
     }
-    if (mp.lvl[(b+outdim)/8][(a+outdim)/8] != 24 && mp.lvl[(b+outdim)/8][(a+outdim)/8] != 22){
+    if (mp.lvl[(b+outdim)/8][(a+outdim)/8] >24){
         return true;
     }
     return false;
@@ -97,6 +104,16 @@ void Object::handleEvents(){
             case SDLK_SPACE:
                 if(mp.lvl[b/8][a/8] == 22 || mp.lvl[(b+outdim)/8][a/8] == 22 || mp.lvl[b/8][(a+outdim)/8] == 22 || mp.lvl[(b+outdim)/8][(a+outdim)/8] == 22){
                     yulu = !yulu;
+                }
+                if(mp.lvl[b/8][a/8] < 13 || mp.lvl[(b+outdim)/8][a/8] < 13 || mp.lvl[b/8][(a+outdim)/8] < 13 || mp.lvl[(b+outdim)/8][(a+outdim)/8] < 13){
+                    Energy += 0.05;
+                    Money -= 0.03;
+                    Mix_PlayChannel(-1, eat, 0);
+                }
+                if(mp.lvl[b/8][a/8] == 13 || mp.lvl[(b+outdim)/8][a/8] == 13 || mp.lvl[b/8][(a+outdim)/8] == 13 || mp.lvl[(b+outdim)/8][(a+outdim)/8] == 13){
+                    Energy += 0.08;
+                    Money -= 0.06;
+                    Mix_PlayChannel(-1, eat, 0);
                 }
                 break;
             case SDLK_l:
@@ -173,12 +190,15 @@ void Object::handleEvents(){
     }
 }
 void Object::update(){
-    handleEvents();
-    if(! (EnergyBar = TextureCreator::LoadTextureFromText("Energy: "+ std::to_string((int)Energy), textColor, gfont))){
-        std::cout << "fail" ;
-    }
-    Energy -= (abs(vx) + abs(vy))*0.005;
-    std::cout << Energy << std::endl;
+
+    //if(! (EnergyBar = TextureCreator::LoadTextureFromText("Energy: "+ std::to_string((int)Energy), textColor, gfont))){
+      //  std::cout << "fail" ;
+    //}
+    EnergyBar = TextureCreator::LoadTextureFromText("Energy: "+ std::to_string((int)Energy), textColor, gfont);
+    MoneyBar = TextureCreator::LoadTextureFromText("Money: "+ std::to_string((int)Money), textColor, gfont);
+    ScoreBar = TextureCreator::LoadTextureFromText("Score: "+ std::to_string((int)Score), textColor, gfont);
+    Money += 0.005;
+
     destR.h = outdim;
     destR.w = outdim;
     if(largeview){
@@ -195,39 +215,47 @@ void Object::update(){
         cam_addr = &camera;
     }
 
-    //Texture Update
-    if(yulu){
-        objtex = objcycle;
-        srcR.x = 0;
-        srcR.y = 0;
-        srcR.h = 92;
-        srcR.w = 106;
-        srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%8));
-        if(static_cast<int>((SDL_GetTicks()/ 100%16)) >= 8){
-            srcR.y = srcR.h;
+    if(Money < 0){
+        yulu = false;
+        Money = 0;
+        Energy -= 5;
+    }
+    if(!stunned && Energy > 0){
+        handleEvents();
+        Energy -= (abs(vx) + abs(vy))*0.005;
+        if(yulu){
+            Money -= 0.02;
+            objtex = objcycle;
+            srcR.x = 0;
+            srcR.y = 0;
+            srcR.h = 92;
+            srcR.w = 106;
+            srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%8));
+            if(static_cast<int>((SDL_GetTicks()/ 100%16)) >= 8){
+                srcR.y = srcR.h;
+            }
+        }
+        else if(vx == 0 && vy  == 0){
+            objtex = objstand;
+            srcR.x = 0;
+            srcR.y = 0;
+            srcR.h = 426;
+            srcR.w = 316;
+        }
+        else if (direction){
+            objtex = objright;
+            srcR.x = 0;
+            srcR.y = 0;
+            srcR.h = 76;
+            srcR.w = 76;
+            srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%8));
+        }
+
+        flip = SDL_FLIP_NONE;
+        if (direction == -1){
+            flip = SDL_FLIP_HORIZONTAL;
         }
     }
-    else if(vx == 0 && vy  == 0){
-        objtex = objstand;
-        srcR.x = 0;
-        srcR.y = 0;
-        srcR.h = 426;
-        srcR.w = 316;
-    }
-    else if (direction){
-        objtex = objright;
-        srcR.x = 0;
-        srcR.y = 0;
-        srcR.h = 76;
-        srcR.w = 76;
-        srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%8));
-    }
-
-    flip = SDL_FLIP_NONE;
-    if (direction == -1){
-        flip = SDL_FLIP_HORIZONTAL;
-    }
-
     //std::cout << camera.x << " " << camera.y << " " << camera.w << " " << camera.h << std::endl;
 
 }
@@ -235,8 +263,19 @@ void Object::render(){
 
 
     SDL_RenderCopyEx(Game::renderer, objtex, &srcR, &destR, 0, NULL, flip);
-    SDL_Rect r = {0,0,300,50};
-    if(SDL_RenderCopy(Game::renderer, EnergyBar, NULL, &r)<0){
+
+    SDL_Rect rectE = {0,0,300,50};
+    if(SDL_RenderCopy(Game::renderer, EnergyBar, NULL, &rectE)<0){
+       printf(SDL_GetError());
+    }
+
+    SDL_Rect rectM = {0,50,300,50};
+    if(SDL_RenderCopy(Game::renderer, MoneyBar, NULL, &rectM)<0){
+       printf(SDL_GetError());
+    }
+
+    SDL_Rect rectS = {0,100,300,50};
+    if(SDL_RenderCopy(Game::renderer, ScoreBar, NULL, &rectS)<0){
        printf(SDL_GetError());
     }
 }

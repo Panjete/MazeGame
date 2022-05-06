@@ -17,16 +17,33 @@ int sgn(int val){
     return (0 < val) - (val < 0);
 }
 
-Projectile::Projectile(float x_init, float y_init)
+
+Projectile::Projectile(int category)
 {
-    xpos = x_init;
-    ypos = y_init;
-    objtex = TextureCreator::LoadTexture("store/dog-right.png");
+    typeinfo = category;
+    std::pair loc = mp.permitted[rand()%mp.permitted.size()];
+
+    xpos = 8*loc.first;
+    ypos = 8*loc.second;
+
+    if(typeinfo == 0){
+        objusual = TextureCreator::LoadTexture("store/dog-right.png");
+        objpro = TextureCreator::LoadTexture("store/dog-pro.png");
+        srcR.w = 95;
+        srcR.h = 63;
+    }
+    else{
+        objusual = TextureCreator::LoadTexture("store/bee-right.png");
+        objpro = TextureCreator::LoadTexture("store/bee-pro.png");
+        srcR.w = 174;
+        srcR.h = 126;
+    }
+
+    objtex = objusual;
     srcR.x = 0;
     srcR.y = 0;
-    srcR.w = 95;
-    srcR.h = 63;
-    speed = 1;
+
+    speed = 0.4;
     outdim = 6;
 
 }
@@ -57,7 +74,37 @@ bool Projectile::CheckColl(){
 
 void Projectile::update(){
     //std::cout << xpos << "," << ypos << std::endl;
-    srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%10));
+    if(pro){
+        objtex = objpro;
+        srcR.y = 0;
+        if(typeinfo == 0){
+            srcR.w = 177;
+            srcR.h = 89;
+        }
+        else{
+            srcR.w = 174;
+            srcR.h = 126;
+        }
+        srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%3));
+
+    }
+    else{
+        objtex = objusual;
+        srcR.y = 0;
+        if(typeinfo == 0){
+            srcR.w = 95;
+            srcR.h = 63;
+            srcR.x = srcR.w * static_cast<int>(SDL_GetTicks()/ 100% 10 );
+        }
+        else{
+            srcR.w = 174;
+            srcR.h = 126;
+            srcR.x = srcR.w * static_cast<int>(SDL_GetTicks()/ 100% 8 );
+
+        }
+    }
+
+
 
     vx += (rand()%3 - 1);
     vy += (rand()%3 - 1);
@@ -94,7 +141,7 @@ void Projectile::update(){
     destR.h = outdim;
     destR.w = outdim;
     if(largeview){
-        destR.x = (int)xpos;
+        destR.x = xpos;
         destR.y = ypos;
     }
     else{

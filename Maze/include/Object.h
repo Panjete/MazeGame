@@ -28,8 +28,19 @@ class Object
 
         bool CheckColl();
         bool yulu = false;
+        bool stunned = false;
         SDL_Rect camera;
+
         float Energy;
+        float Money;
+        float Score;
+
+        SDL_Texture* objtex;
+        SDL_Rect srcR, destR;
+
+        float xpos;
+        float ypos;
+
     protected:
 
     private:
@@ -38,13 +49,9 @@ class Object
         int vx = 0;
         int vy = 0;
 
-
-        float xpos;
-        float ypos;
         int outdim;
 
-        SDL_Texture* objtex;
-        SDL_Rect srcR, destR;
+
 
 
 };

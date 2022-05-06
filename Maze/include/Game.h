@@ -20,7 +20,11 @@ public:
     static SDL_Renderer *renderer;
     static SDL_Event event;
     static bool CollRect(SDL_Rect obj1, SDL_Rect obj2);
+
+    int minutes() {return (SDL_GetTicks()/250)%60;}
+    int hours() {return ((SDL_GetTicks()/250)/60)%24;}
 private:
 	bool isRunning = false;
 	SDL_Window *window;
+
 };
