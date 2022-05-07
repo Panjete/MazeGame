@@ -42,8 +42,11 @@ Installation of the SDL2 and its libraries was pretty simple on the Ubuntu syste
 ## Playing Instructions
 
 1. Clone the repository.
-2. Run ```export SRC_DIR=$(pwd)``` after navigating to server folder on a device, and then run ```make```.
-3. Run ```export SRC_DIR=$(pwd)``` after navigating to client folder on another device, and then run ```make```.
+2. Connect both the devices to the same wifi (mobile hotspot).
+2. Run ```export SRC_DIR=$(pwd)``` after navigating to server folder on a device terminal, and then run ```make```.
+4. Navigate to the client folder on the other device.
+4. Locate "client.h", then in line 28 enter the IPv4 address of the server.
+3. Run ```export SRC_DIR=$(pwd)``` after navigating to the client folder on this device's terminal, then run ```make```.
 4. Run ```./play.out``` on both the devices.
 5. Have fun!
 
