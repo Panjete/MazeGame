@@ -34,10 +34,10 @@ Both the teammates operated on an Ubuntu environment, via a Virtual Machine on a
 
 Installation of the SDL2 and its libraries was pretty simple on the Ubuntu systems, and the following commands were given on the terminal:- 
 
-1.SDL2 using `sudo apt-get install libsdl2-dev`. \n
-2.SDL_image using `sudo apt-get install libsdl2-image-dev` for image rendering. \n
-3.SDL_ttf using `sudo apt-get install libsdl2-ttf-dev` for fonts rendering. \n
-4.SDL_mixer using `sudo apt-get install libsdl2-mixer-dev` for audio. \n
+1.SDL2 using `sudo apt-get install libsdl2-dev`. 
+2.SDL_image using `sudo apt-get install libsdl2-image-dev` for image rendering. 
+3.SDL_ttf using `sudo apt-get install libsdl2-ttf-dev` for fonts rendering. 
+4.SDL_mixer using `sudo apt-get install libsdl2-mixer-dev` for audio. 
 
 ## Playing Instructions
 
