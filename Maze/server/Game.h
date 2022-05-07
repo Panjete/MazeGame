@@ -4,6 +4,7 @@
 #include <iostream>
 #include "SDL2/SDL_mixer.h"
 #include "SDL2/SDL_ttf.h"
+#include "TextureCreator.h"
 class Game
 {
 public:
@@ -15,6 +16,8 @@ public:
 	void handleEvents();
 	void update();
 	bool running() { return isRunning; }
+	bool homescreen() {return home;}
+	bool helpstatus() {return help;}
 	void render();
 	void clean();
     static SDL_Renderer *renderer;
@@ -23,8 +26,12 @@ public:
 
     int minutes() {return (SDL_GetTicks()/250)%60;}
     int hours() {return ((SDL_GetTicks()/250)/60)%24;}
+    
+    bool isRunning = false;
+    bool home = true;
+    bool help = false;
 private:
-	bool isRunning = false;
+	
 	SDL_Window *window;
 
 };

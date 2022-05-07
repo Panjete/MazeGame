@@ -33,21 +33,23 @@ class Object2
         SDL_Rect srcR, destR;
 
         float xpos;
-        float ypos;
+        float ypos; 
         SDL_RendererFlip flip;
 
         vector<string> DataToStrings(string s){
-        	//cout << s << "\n";
+        //cout << s << "\n";
             vector<string> words;
 
             stringstream sstream(s);
-            string word;
-            while (getline(sstream, word, '#')){
-                words.push_back(word);
+            string txt;
+            while (getline(sstream, txt, '#')){
+                words.push_back(txt);
+                //cout << txt << "no";
             }
             return words;
         }
 	int direction = 0 ;
+	int winlose = 0;
     protected:
 
     private:

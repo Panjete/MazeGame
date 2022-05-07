@@ -78,7 +78,7 @@ void Game::init(const char* title, int width, int height)
 
     //Mix_PlayMusic( MyMusic, -1 );
 	player1 = new Object(100, 0);
-	player2 = new Object2(100,50);
+	player2 = new Object2(1086,0);
 	dog = new Projectile(0);
 	dog2 = new Projectile(0);
 	bee= new Projectile(1);

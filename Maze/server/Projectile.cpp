@@ -127,11 +127,11 @@ void Projectile::update(){
     ypos += sgn(vy) * speed;
     if(ypos + outdim> SCREEN_HEIGHT){
         ypos = SCREEN_HEIGHT - outdim;
-        ypos -= sgn(vy);
+        vy -= sgn(vy);
     }
     if(ypos < 0){
         ypos = 0;
-        ypos -= sgn(vy);
+        vy -= sgn(vy);
     }
     if(this->CheckColl()){
         ypos -= speed * sgn(vy);
