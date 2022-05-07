@@ -18,26 +18,26 @@ battle it out to emerge victorious
 7) Use the Zoom out command, for the bigger picture .
 
 ## Commands :-
-A - The Left Movement key 
-D - The Right Movement key
-W- The Up Movement key
-S - The Down Movement key
-L - The Bigger picture command, displays the whole map
-M - For the non-music enthusiasts
-Space Bar in a Food joint zone - Energy replenishment, for the exchange of some money
-Space Bar in a Yulu Zone - Hop on/off a Yulu, with a gradually emptying wallet 
+A - The Left Movement key <br />
+D - The Right Movement key <br />
+W- The Up Movement key <br />
+S - The Down Movement key <br />
+L - The Bigger picture command, displays the whole map<br />
+M - For the non-music enthusiasts<br />
+Space Bar in a Food joint zone - Energy replenishment, for the exchange of some money<br />
+Space Bar in a Yulu Zone - Hop on/off a Yulu, with a gradually emptying wallet <br />
 
 
 Both the teammates operated on an Ubuntu environment, via a Virtual Machine on an HP and a Mac device. Since a VM could not run the server files appropriately, we ended up having to borrow a dual booted laptop to run the server, and the client was running from any other device.
 
 ## Installing the Libraries 
 
-Installation of the SDL2 and its libraries was pretty simple on the Ubuntu systems, and the following commands were given on the terminal:- 
+Installation of the SDL2 and its libraries was pretty simple on the Ubuntu systems, and the following commands were given on the terminal:- <br />
 
-1.SDL2 using `sudo apt-get install libsdl2-dev`. 
-2.SDL_image using `sudo apt-get install libsdl2-image-dev` for image rendering. 
-3.SDL_ttf using `sudo apt-get install libsdl2-ttf-dev` for fonts rendering. 
-4.SDL_mixer using `sudo apt-get install libsdl2-mixer-dev` for audio. 
+1.SDL2 using `sudo apt-get install libsdl2-dev`. <br />
+2.SDL_image using `sudo apt-get install libsdl2-image-dev` for image rendering. <br />
+3.SDL_ttf using `sudo apt-get install libsdl2-ttf-dev` for fonts rendering. <br />
+4.SDL_mixer using `sudo apt-get install libsdl2-mixer-dev` for audio. <br />
 
 ## Playing Instructions
 
