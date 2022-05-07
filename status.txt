@@ -1,0 +1,2 @@
+The project is compiling, and running as we want it to.
+Further details for the compilation and running procedure can be found in the readme.md
