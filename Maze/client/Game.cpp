@@ -67,7 +67,7 @@ void Game::init(const char* title, int width, int height)
     gfont = TTF_OpenFont("store/CaviarDreams_BoldItalic.ttf",28);
     if(gfont == NULL){printf(TTF_GetError());}
 
-    MyMusic = Mix_LoadMUS( "store/Ghostrifter-Official-Deflector.mp3");
+    MyMusic = Mix_LoadMUS( "store/LALA.mp3");
     bark = Mix_LoadWAV( "store/dog-barking");
     buzz = Mix_LoadWAV( "store/wasp-fly.mp3");
     gain = Mix_LoadWAV( "store/gain.wav");
@@ -77,8 +77,8 @@ void Game::init(const char* title, int width, int height)
 //}
 
     //Mix_PlayMusic( MyMusic, -1 );
-	player1 = new Object(100, 0);
-	player2 = new Object2(100,50);
+	player1 = new Object(1086, 0);
+	player2 = new Object2(100,0);
 	dog = new Projectile(0);
 	dog2 = new Projectile(0);
 	bee= new Projectile(1);

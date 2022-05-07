@@ -1,5 +1,5 @@
 #include "Object.h"
-
+extern Game *game;
 extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;
 
@@ -18,16 +18,22 @@ extern TTF_Font* gfont;
 int levelratio = 4;
 bool largeview = false;
 
+Uint32 t_end = INT_MAX;
+SDL_Texture* endscrn;
+SDL_Texture* losescrn;
+SDL_Texture* winscrn;
 extern Map mp;
 
 Object::Object(float x_init, float y_init)
 {
 
-    objright = TextureCreator::LoadTexture("store/boy-right.png");
-    objstand = TextureCreator::LoadTexture("store/boy-stand.png");
-    objcycle = TextureCreator::LoadTexture("store/boy-cycleright.png");
+    objright = TextureCreator::LoadTexture("store/girl-right.png");
+    objstand = TextureCreator::LoadTexture("store/girl-stand.png");
+    objcycle = TextureCreator::LoadTexture("store/girl-cycle.png");
     objtex = objstand;
 
+ 	losescrn = TextureCreator::LoadTexture("store/loseScreen.png");
+ 	winscrn = TextureCreator::LoadTexture("store/winScreen.png");
     xpos = x_init;
     ypos = y_init;
     speed = 0.5;
@@ -182,6 +188,17 @@ void Object::handleEvents(){
     if(this->CheckColl()){
         ypos -= speed * vy;
     }
+    
+    if(vx > 0){
+    	direction = 1;
+    }
+    else if (vx < 0){
+    	direction = -1;
+    }
+    else if(vx == 0 && vy == 0){
+    	direction = 0;
+    }
+    
 }
 void Object::update(){
 
@@ -221,28 +238,27 @@ void Object::update(){
             Money -= 0.02;
             objtex = objcycle;
             srcR.x = 0;
-            srcR.y = 0;
-            srcR.h = 92;
-            srcR.w = 106;
-            srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%8));
-            if(static_cast<int>((SDL_GetTicks()/ 100%16)) >= 8){
-                srcR.y = srcR.h;
-            }
-        }
+		srcR.y = 0;
+		srcR.w = 78;
+		srcR.h = 83;
+
+                    }
         else if(vx == 0 && vy  == 0){
             objtex = objstand;
             srcR.x = 0;
-            srcR.y = 0;
-            srcR.h = 426;
-            srcR.w = 316;
+        srcR.y = 0;
+        srcR.w = 364;
+        srcR.h = 626;
+            
         }
         else if (direction){
             objtex = objright;
-            srcR.x = 0;
-            srcR.y = 0;
-            srcR.h = 76;
-            srcR.w = 76;
-            srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%8));
+            srcR.w = 245;
+        srcR.x = srcR.w * static_cast<int>((SDL_GetTicks()/ 100%5));
+        srcR.y = 0;
+        
+        srcR.h = 298;
+            
         }
 
         flip = SDL_FLIP_NONE;
@@ -251,6 +267,33 @@ void Object::update(){
         }
     }
     //std::cout << camera.x << " " << camera.y << " " << camera.w << " " << camera.h << std::endl;
+    if(Score >= 100){
+    	t_end = SDL_GetTicks();
+    	winlose = 1;
+    }
+    else if(Energy <= 0){
+    	t_end = SDL_GetTicks();
+    	winlose = -1;
+    }
+	else{winlose =0;}
+    if(winlose != 0){
+    	if(SDL_GetTicks() - t_end > 1000){
+    		game->isRunning = false;
+    	}
+    	
+    	if(winlose == -1){
+    		endscrn = losescrn;
+    	}
+    	if(winlose == +1){
+    		endscrn = winscrn;
+    	}
+    	SDL_RenderClear(Game::renderer);
+    	SDL_RenderCopy(Game::renderer,endscrn,NULL,NULL);
+    	SDL_RenderPresent(Game::renderer);
+    
+    	SDL_Delay(5000);
+    }
+   
 
 }
 void Object::render(){

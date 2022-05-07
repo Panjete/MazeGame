@@ -23,7 +23,7 @@ class Object
 
         string DataToString(){
         	string f = (flip == SDL_FLIP_NONE)? "0" : "1";
-            return std::to_string(xpos) + "#" +std::to_string(ypos) + "#" +std::to_string(direction) + "#" +std::to_string(yulu) + "#" +std::to_string(Score) + "#" + f;
+            return std::to_string(xpos) + "#" +std::to_string(ypos) + "#" +std::to_string(direction) + "#" +std::to_string(yulu) + "#" +std::to_string(Score) + "#" + f +  "#" +std::to_string(winlose) ;
         }
         //int right(){return xpos + destR.w;}
         //int left(){return xpos;}
@@ -44,6 +44,8 @@ class Object
         SDL_Texture* MoneyBar;
         SDL_Texture* ScoreBar;
         SDL_Rect srcR, destR;
+        
+        int winlose = 0;
 
         float xpos;
         float ypos;

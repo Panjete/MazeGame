@@ -49,6 +49,7 @@ class Object2
             return words;
         }
 	int direction = 0 ;
+	int winlose = 0;
     protected:
 
     private:
